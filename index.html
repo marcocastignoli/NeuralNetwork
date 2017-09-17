@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Neural Network</title>
+    <style type="text/css">
+        body {
+            background-color: white;
+        }
+
+        #container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container"></div>
+
+
+    <script src="sigma.min.js"></script>
+    <script src="sigma.renderers.edgeLabels.min.js"></script>
+
+    <script src="Util.js"></script>
+    <script src="Neuron.js"></script>
+    <script src="Network.js"></script>
+
+
+    <script>
+        var worker = new Worker("Worker.js")
+
+        var s
+
+        var test;
+
+        worker.addEventListener('message', msg => {
+
+            if (msg.data.type.update) {
+
+                s && s.kill()
+
+                s = new sigma({
+                    graph: msg.data.graph,
+                    renderer: {
+                        container: container,
+                        type: "canvas"
+                    },
+                });
+
+            }
+
+            if (msg.data.type.success) {
+
+                var packedNetwork = JSON.parse(msg.data.bestNetwork)
+
+                var network = Network.unpack(packedNetwork)
+
+                test = x => {
+                    return network.process(x);
+                }
+                
+                console.log("finito")
+
+            }
+
+        })
+    </script>
+</body>
+
+</html>
