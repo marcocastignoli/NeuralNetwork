@@ -4,5 +4,6 @@ importScripts("models/Network.js")
 importScripts("models/Darwin.js")
 importScripts("models/Universe.js")
 
+var universe = new Universe()
 
-bigBang()
+universe.bigBang()
