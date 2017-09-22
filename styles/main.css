@@ -1,0 +1,49 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+hr {
+    color: green;
+}
+
+.main{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 200px 1fr;
+    grid-template-areas: 
+        "tl tr "
+        "bl br";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    
+}
+
+#container {
+    
+    background-color: black;
+    grid-area: tl;
+}
+
+#log {
+    
+    color: green;
+    padding: 10px;
+    background-color: black;
+    grid-area: bl;
+    word-break:break-all;
+    
+}
+
+#terminal {
+    
+    color: green;
+    padding: 10px;
+    background-color: black;
+    grid-area: tr;
+    /*word-break:break-all;
+    overflow-y: scroll;*/
+}

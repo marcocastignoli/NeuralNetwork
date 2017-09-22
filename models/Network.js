@@ -134,7 +134,7 @@ class Network {
 
                 if (Math.random() < mutationRate) {
 
-                    n.activationFunction = pick(n.options.activationFunctions)
+                    n.activationFunction = Util.pick(n.options.activationFunctions)
 
                 }
 
@@ -254,7 +254,7 @@ class Network {
                     x: x,
                     y: y,
                     size: Math.abs(n.bias),
-                    color: col(n.bias),
+                    color: Util.col(n.bias),
 
                 })
 
@@ -264,7 +264,7 @@ class Network {
                         id: n.id + inp.id,
                         target: n.id,
                         source: inp.id,
-                        color: col(n.weights[j]),
+                        color: Util.col(n.weights[j]),
                         size: Math.abs(n.weights[j]) * 10
 
                     }

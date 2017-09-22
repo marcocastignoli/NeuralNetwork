@@ -4,7 +4,7 @@ class Neuron {
 
         this.options = options || {}
 
-        this.id = uid()
+        this.id = Util.uid()
 
         this.inputs = layer
 
@@ -24,7 +24,7 @@ class Neuron {
 
         this.activationFunction =
             this.options.activationFunctions
-                ? pick(this.options.activationFunctions)
+                ? Util.pick(this.options.activationFunctions)
                 : (output, multiplier) => output * multiplier
 
         if (this.options.activationFunction) {

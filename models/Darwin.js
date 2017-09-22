@@ -79,7 +79,7 @@ class Darwin {
 
         } else {
 
-            
+
             var bestParent = population[0];
 
             var i = 0
@@ -101,6 +101,8 @@ class Darwin {
 
     process(container, debug) {
 
+        var best = false
+
         for (var i = 0; ; i++) {
 
             var res = this.assignFitness()
@@ -116,7 +118,9 @@ class Darwin {
 
             }
 
-            if (i % 100 == 0) {
+            if (!best || this.population[0].fitness > best) {
+
+                best = this.population[0].fitness
 
                 postMessage({
                     type: {
@@ -124,7 +128,7 @@ class Darwin {
                     },
                     graph: this.population[0].graph(),
                     generationNumber: i,
-                    fitness: this.population[0].fitness
+                    fitness: best
                 })
 
                 unique_id = 0
@@ -132,15 +136,6 @@ class Darwin {
             }
 
             if (this.population[0].fitness >= -.1) {
-
-                postMessage({
-                    type: {
-                        update: true
-                    },
-                    graph: this.population[0].graph(),
-                    generationNumber: i,
-                    fitness: this.population[0].fitness
-                })
 
                 postMessage({
                     type: {
