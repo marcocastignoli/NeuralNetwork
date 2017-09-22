@@ -25,7 +25,7 @@ class Darwin {
     }
 
     assignFitness() {
-        
+
         var conditions = this.options.conditions
         var solutions = this.options.solutions
 
@@ -45,9 +45,7 @@ class Darwin {
 
                 output.forEach((o, j) => {
 
-                    //err += Math.abs(solutions[k][j] - o) > 2
-
-                    err += Math.abs((solutions[k][j]) - o )
+                    err += Math.abs(solutions[k][j] - o) > 0.01
 
                 })
 
@@ -62,21 +60,43 @@ class Darwin {
 
     }
 
-    geneticAlgorithm(lives, lives_size) {
-        // Sort the lives (higher fitness is better)
-        lives.sort(function (a, b) {
+    breed(population, lives_size, sexualy) {
+
+        population.sort(function (a, b) {
             return b.fitness - a.fitness
         })
 
         var children = []
 
-        while (children.length < lives_size) {
-            var i = Math.floor(Math.random() * (children.length + 1) / lives_size * lives.length)
-            var son = lives[i].clone().mutate()
-            children.push(son)
+        if (!sexualy) {
+
+            while (children.length < lives_size) {
+                var i = Math.floor(Math.random() * (children.length + 1) / lives_size * population.length)
+                var son = population[i].clone().mutate()
+
+                children.push(son)
+            }
+
+        } else {
+
+            
+            var bestParent = population[0];
+
+            var i = 0
+
+            while (children.length < lives_size) {
+
+                var son = bestParent.breed(population[i])
+
+                i++
+
+                children.push(son.clone().mutate())
+            }
+
         }
 
         return children
+
     }
 
     process(container, debug) {
@@ -103,12 +123,25 @@ class Darwin {
                         update: true
                     },
                     graph: this.population[0].graph(),
+                    generationNumber: i,
+                    fitness: this.population[0].fitness
                 })
+
+                unique_id = 0
 
             }
 
             if (this.population[0].fitness >= -.1) {
-                
+
+                postMessage({
+                    type: {
+                        update: true
+                    },
+                    graph: this.population[0].graph(),
+                    generationNumber: i,
+                    fitness: this.population[0].fitness
+                })
+
                 postMessage({
                     type: {
                         success: true
@@ -121,8 +154,7 @@ class Darwin {
 
             var parentToKeepPercentage = this.options.parentToKeepPercentage || 20
 
-            // faccio i bimbi
-            this.population = this.geneticAlgorithm(this.population.slice(0, Math.floor(this.population.length*100 / parentToKeepPercentage)), this.populationLength)
+            this.population = this.breed(this.population.slice(0, Math.floor(this.population.length * 100 / parentToKeepPercentage)), this.populationLength, true)
 
         }
 

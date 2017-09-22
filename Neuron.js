@@ -43,9 +43,7 @@ class Neuron {
 
         this.weights.forEach((w, i) => {
 
-            // TODO: Recursive synapse
-            //this.output += ( this.inputs[i].layerId==this.layerId ? this.inputs[i].oldOutput : this.inputs[i].output ) * w
-            this.output += this.inputs[i].output * w
+            this.output += ( this.inputs[i].layerId==this.layerId ? this.inputs[i].oldOutput : this.inputs[i].output ) * w
 
         })
 

@@ -18,7 +18,6 @@ for (var x = 1; x < 5; x++) {
 }
 */
 
-
 for (var x = 0; x < 5; x++) {
 
     for (var y = 0; y < 5; y++) {
@@ -29,7 +28,6 @@ for (var x = 0; x < 5; x++) {
     }
 
 }
-
 
 /*
 for (var j = 0; j < 5; j++) {
@@ -51,9 +49,12 @@ solutions = conditions
 
 var population = []
 
+var nInput = conditions[0].length
+var nOutput = solutions[0].length
+
 while (population.length < 100) {
 
-    var network = new Network([2,1], {
+    var network = new Network([nInput, nOutput], {
         neuron: {
             activationFunctions: [
                 (output, multiplier) => { return 1 / (1 + Math.exp(-output * multiplier)) * 2 - 1 },
@@ -61,7 +62,7 @@ while (population.length < 100) {
                 (output, multiplier) => { return output },
             ]
         },
-        mutationRate: .25
+        mutationRate: .30
     })
 
     population.push(network)
@@ -71,7 +72,7 @@ while (population.length < 100) {
 var darwin = new Darwin(population, {
     conditions: conditions,
     solutions: solutions,
-    parentToKeepPercentage: 20
+    parentToKeepPercentage: 10
 })
 
 darwin.process('container')

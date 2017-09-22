@@ -26,8 +26,6 @@ class Network {
 
             }
 
-            /*
-             * TODO: Recursive synapse
             for (var i = 0; i < l; i++) {
 
                 if (k != 0) {
@@ -39,7 +37,6 @@ class Network {
                 }
 
             }
-            */
 
         })
 
@@ -47,8 +44,6 @@ class Network {
 
     process(inputs) {
 
-        /*
-         * TODO: Recursive synapse
         for (var i = 1; i < this.layers.length; i++) {
 
             this.layers[i].forEach(n => {
@@ -58,7 +53,6 @@ class Network {
             })
 
         }
-        */
 
         this.layers[0].forEach((n, k) => {
 
@@ -70,6 +64,10 @@ class Network {
 
             this.layers[i].forEach(n => {
 
+                n.process()
+                n.process()
+                n.process()
+                n.process()
                 n.process()
 
             })
@@ -158,6 +156,84 @@ class Network {
 
     }
 
+    breed(partner) {
+
+        var net = new Network(this.structure, this.options)
+
+        net.layers.forEach((l, k) => {
+
+            l.forEach((n, i) => {
+
+                var chosen = null
+
+                if (Math.random() < .5) {
+
+                    chosen = partner.layers[k][i]
+
+                } else {
+
+                    chosen = this.layers[k][i]
+
+                }
+
+                n.bias = chosen.bias
+
+                if (Math.random() < .5) {
+
+                    chosen = partner.layers[k][i]
+
+                } else {
+
+                    chosen = this.layers[k][i]
+
+                }
+
+                n.multiplier = chosen.multiplier
+
+                if (Math.random() < .5) {
+
+                    chosen = partner.layers[k][i]
+
+                } else {
+
+                    chosen = this.layers[k][i]
+
+                }
+
+                n.weights = chosen.weights.slice()
+
+                if (Math.random() < .5) {
+
+                    chosen = partner.layers[k][i]
+
+                } else {
+
+                    chosen = this.layers[k][i]
+
+                }
+
+                n.activationFunction = chosen.activationFunction
+
+                if (Math.random() < .5) {
+
+                    chosen = partner.layers[k][i]
+
+                } else {
+
+                    chosen = this.layers[k][i]
+
+                }
+
+                n.options.activationFunction = chosen.options.activationFunction
+            })
+
+        })
+
+        return net
+
+
+    }
+
     graph(container) {
 
         var data = {
@@ -175,24 +251,33 @@ class Network {
 
                 data['nodes'].push({
                     id: n.id,
-                    // label: n.bias.toString(),
-                    x: y,
-                    y: x,
-                    size: 3,
+                    x: x,
+                    y: y,
+                    size: Math.abs(n.bias),
                     color: col(n.bias),
 
                 })
 
                 n.inputs.forEach((inp, j) => {
 
-                    data['edges'].push({
+                    var edge = {
                         id: n.id + inp.id,
                         target: n.id,
                         source: inp.id,
-                        color: col(n.weights[j])
-                        //    label: n.weights[j].toString(),
+                        color: col(n.weights[j]),
+                        size: Math.abs(n.weights[j]) * 10
 
-                    })
+                    }
+
+                    if (n.id == inp.id) {
+
+                        edge['type'] = "curve"
+
+                    }
+
+                    data['edges'].push(edge)
+
+
 
                 })
 
