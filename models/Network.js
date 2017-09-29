@@ -134,7 +134,7 @@ class Network {
 
                 if (Math.random() < mutationRate) {
 
-                    n.activationFunction = Util.pick(n.options.activationFunctions)
+                    n.options.activationFunction = Util.pick(n.options.activationFunctions)
 
                 }
 

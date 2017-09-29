@@ -1,3 +1,9 @@
+var globalActivationFunctions = {
+    "Sigmoid": (output, multiplier) => { return 1 / (1 + Math.exp(-output * multiplier)) * 2 - 1 },
+    "LinearWithMultiplier": (output, multiplier) => { return output * multiplier },
+    "Linear": (output, multiplier) => { return output }
+}
+
 class Neuron {
 
     constructor(layer, layerId, options) {
@@ -24,12 +30,12 @@ class Neuron {
 
         this.activationFunction =
             this.options.activationFunctions
-                ? Util.pick(this.options.activationFunctions)
-                : (output, multiplier) => output * multiplier
+                ? globalActivationFunctions[Util.pick(this.options.activationFunctions)]
+                : globalActivationFunctions["Linear"]
 
         if (this.options.activationFunction) {
 
-            this.activationFunction = this.options.activationFunction
+            this.activationFunction = globalActivationFunctions[this.options.activationFunction]
 
         }
 
@@ -46,7 +52,7 @@ class Neuron {
             this.output += ( this.inputs[i].layerId==this.layerId ? this.inputs[i].oldOutput : this.inputs[i].output ) * w
 
         })
-
+        
         this.output = this.activationFunction(this.output, this.multiplier)
 
     }

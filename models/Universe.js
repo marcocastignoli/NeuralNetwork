@@ -39,9 +39,9 @@ class Universe {
             var network = new Network([nInput, nOutput], {
                 neuron: {
                     activationFunctions: [
-                        (output, multiplier) => { return 1 / (1 + Math.exp(-output * multiplier)) * 2 - 1 },
-                        (output, multiplier) => { return output * multiplier },
-                        (output, multiplier) => { return output },
+                        "Linear",
+                        "LinearWithMultiplier",
+                        "Sigmoid"
                     ]
                 },
                 mutationRate: .30
