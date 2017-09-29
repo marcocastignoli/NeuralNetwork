@@ -28,19 +28,29 @@ class Neuron {
 
         this.activationFunctionsNames = activationFunctionsNames
 
-        this.activationFunction =
-            activationFunctionsNames
-                ? globalActivationFunctions[Util.pick(activationFunctionsNames)]
-                : globalActivationFunctions["Linear"]
+        this.setActivationFunction("Linear")
 
+        if(activationFunctionsNames){
+
+            this.setActivationFunction(Util.pick(activationFunctionsNames))
+
+        }
+        
         if (activationFunctionName) {
-            this.activationFunctionName = activationFunctionName
-
-            this.activationFunction = globalActivationFunctions[activationFunctionName]
+            
+            this.setActivationFunction(activationFunction)
 
         }
 
         this.output = 0
+
+    }
+
+    setActivationFunction (activationFunctionName) {
+
+        this.activationFunctionName = activationFunctionName
+
+        this.activationFunction = globalActivationFunctions[activationFunctionName]
 
     }
 

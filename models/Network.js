@@ -134,7 +134,7 @@ class Network {
 
                 if (Math.random() < mutationRate) {
 
-                    n.activationFunctionName = Util.pick(n.activationFunctionsNames)
+                    n.setActivationFunction(Util.pick(n.activationFunctionsNames))
 
                 }
 
@@ -212,19 +212,8 @@ class Network {
 
                 }
 
-                n.activationFunction = chosen.activationFunction
+                n.setActivationFunction(chosen.activationFunctionName)
 
-                if (Math.random() < .5) {
-
-                    chosen = partner.layers[k][i]
-
-                } else {
-
-                    chosen = this.layers[k][i]
-
-                }
-
-                n.activationFunctionName = chosen.activationFunctionName
             })
 
         })
