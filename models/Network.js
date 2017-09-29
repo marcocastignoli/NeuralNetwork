@@ -16,11 +16,11 @@ class Network {
 
                 if (k == 0) {
 
-                    this.layers[k][i] = new Neuron([], k, this.options.neuron)
+                    this.layers[k][i] = new Neuron([], k, this.options.neuron.activationFunctions, this.options.neuron.activationFunction)
 
                 } else {
 
-                    this.layers[k][i] = new Neuron(this.layers[k - 1], k, this.options && this.options.neuron)
+                    this.layers[k][i] = new Neuron(this.layers[k - 1], k, this.options.neuron.activationFunctions, this.options.neuron.activationFunction)
 
                 }
 
@@ -102,7 +102,7 @@ class Network {
 
                 n.activationFunction = this.layers[k][i].activationFunction
 
-                n.options.activationFunction = this.layers[k][i].options.activationFunction
+                n.activationFunctionName = this.layers[k][i].activationFunctionName
             })
 
         })
@@ -134,7 +134,7 @@ class Network {
 
                 if (Math.random() < mutationRate) {
 
-                    n.options.activationFunction = Util.pick(n.options.activationFunctions)
+                    n.activationFunctionName = Util.pick(n.activationFunctionsNames)
 
                 }
 
@@ -224,7 +224,7 @@ class Network {
 
                 }
 
-                n.options.activationFunction = chosen.options.activationFunction
+                n.activationFunctionName = chosen.activationFunctionName
             })
 
         })

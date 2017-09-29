@@ -6,9 +6,7 @@ var globalActivationFunctions = {
 
 class Neuron {
 
-    constructor(layer, layerId, options) {
-
-        this.options = options || {}
+    constructor(layer, layerId, activationFunctionsNames, activationFunctionName ) {
 
         this.id = Util.uid()
 
@@ -28,14 +26,17 @@ class Neuron {
 
         this.multiplier = Math.random() * 2 - 1
 
+        this.activationFunctionsNames = activationFunctionsNames
+
         this.activationFunction =
-            this.options.activationFunctions
-                ? globalActivationFunctions[Util.pick(this.options.activationFunctions)]
+            activationFunctionsNames
+                ? globalActivationFunctions[Util.pick(activationFunctionsNames)]
                 : globalActivationFunctions["Linear"]
 
-        if (this.options.activationFunction) {
+        if (activationFunctionName) {
+            this.activationFunctionName = activationFunctionName
 
-            this.activationFunction = globalActivationFunctions[this.options.activationFunction]
+            this.activationFunction = globalActivationFunctions[activationFunctionName]
 
         }
 
